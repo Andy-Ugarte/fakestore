@@ -5,7 +5,7 @@ let jewelery = document.getElementById('jewelery')  /// check spelling (how to c
 let men = document.getElementById('men')
 let women = document.getElementById('women')
 let display = document.getElementById('display')
-let cart = {}
+let cart = []
 
 
 const fakeStore = async(endpoint) => { //endpoint pass function
@@ -46,14 +46,15 @@ function displayCards (products){
         addToCartBtn.innerText = 'add to cart'
         
         addToCartBtn.onclick = function(){
-           const item = {
+           const cartItem = {
             id: product.id,
             title: product.title,
-            cost: '$'+ product.price.toFixed(2),
+            cost: product.price.toFixed(2),
             quantity: 1
            }
            //console.log(item);
-           submitToCart(item);
+           submitToCart(cartItem);
+           console.log(cart)
         };
         
         display.appendChild(card);
@@ -69,37 +70,33 @@ function displayCards (products){
 }
 
 function submitToCart(item) {
-    console.log(cart)
+    // console.log(cart)
     // console.log(item)
-    if (cart.length > 0){
-        console.log(cart.length);
-        cart.forEach((item) => {
-            if (cart.includes(item.id)){
-                item.quantity= item.quantity+1
-                console.log('hello')
-            }   else {
-                cart.push('new item in for each',item)
-            }
-        })
-    }   else {
-        cart.push('new item out for each', item)
+    // if (cart.length === 0){
+    //     //cart.push(item)
+
+    //         if (cart.includes(item.id)){
+    //             item.quantity +=1 
+    //             console.log('hello')
+    //         }   else {
+    //             cart.push('new item in for each',item)
+    //             console.log(cart)
+    //         }
+    //     }
+    // }
+   
+    let matchingId = cart.findIndex(cartItem => cartItem.id === item.id)
+
+    if (matchingId === -1){
+        cart.push(item)
+    } else {
+        cart[matchingId].quantity += 1
     }
 
-    console.log(cart)
-        //let item = []
-    //console.log('submit to cart', item)
-    //cart.push(item)
-    //console.log(cart)
-    //console.log('submit to cart', item.id)
-    
-    // cardTitle.innerText = product.title
-    // cardText.innerText = product.description
-    // image.src = product.image
-    // addToCartBtn.innerText = 'add to cart'
-    
 
 
 }
+
 
     
     electronics.addEventListener('click', () =>{
@@ -130,8 +127,8 @@ function submitToCart(item) {
          fakeStore('/')
      }
 
-     category.addEventListener('click', (e)=> {
-        e.preventDefault();
-        console.log(e.target.search.value)
-        category(e.target)
-     })
+    //  category.addEventListener('click', (e)=> {
+    //     e.preventDefault();
+    //     console.log(e.target.search.value)
+    //     category(e.target)
+    //  })
